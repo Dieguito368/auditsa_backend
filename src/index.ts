@@ -35,6 +35,7 @@ io.on("connection", socket => {
     
     socket.on("join", (name: string) => {
         users[socket.id] = { name, locality: null };
+        
         console.log(`👤 ${name} se ha unido`);
 
         socket.broadcast.emit("userJoined", name);
@@ -47,8 +48,6 @@ io.on("connection", socket => {
     });
 
     socket.on("selectLocality", (locality: string) => {
-        console.log(locality);
-        
         const user = users[socket.id];
 
         if(!user) return;
@@ -96,6 +95,6 @@ io.on("connection", socket => {
     });
 });
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 server.listen(port, () => console.log(`Servidor funcionando en el puerto ${port}`));
